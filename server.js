@@ -102,14 +102,25 @@ app.listen(PORT, () => {
   console.log(`Webhook adrese lokali: http://localhost:${PORT}/whatsapp`);
 });
 
-// Meta Webhook pārbaude (Verify Token)
-app.get('/webhook', (req,res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
+// Vienkāršs veselības endpoints
+app.get("/", (req, res) => {
+res.send("WhatsApp AI bots strada! ✅");
+});
 
-  if (mode === 'subscribe' && token === 'ChatBot') {
-    res.status(200).send(challenge);
-  ‎} else {
-     res.sendStatus(403);
+app.listen(PORT, () => {
+console.log(`Serveris palaists uz porta ${PORT}`);
+console.log(`Webhook adrese lokali: http://localhost:${PORT}/whatsapp`);
+});
+
+// Meta Webhook pārbaude (Verify Token)
+app.get('/webhook', (req, res) => {
+const mode = req.query['hub.mode'];
+const token = req.query['hub.verify_token'];
+const challenge = req.query['hub.challenge'];
+
+if (mode === 'subscribe' && token === 'ChatBot') {
+res.status(200).send(challenge);
+} else {
+res.sendStatus(403);
+}
 });
